@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRuX Data Decoder — Available Tapes & Decoders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 100%);
+      min-height: 100vh;
+      color: #00ffff;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+
+    .cyber-title {
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+    }
+
+    .item-card {
+      background: rgba(0, 20, 40, 0.8);
+      border: 1px solid #00ffff;
+      transition: all 0.3s ease;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    .item-card:hover {
+      box-shadow: 0 0 20px #00ffff;
+      transform: translateY(-2px);
+    }
+
+    .item-claimed {
+      opacity: 0.4;
+      border-color: #ff0066;
+      background: rgba(40, 0, 20, 0.6);
+    }
+
+    .status-badge {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00ffff, transparent);
+      animation: scan 4s linear infinite;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .item-card img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+    }
+
+    .info-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      max-width: 600px;
+      margin: 1.5rem auto;
+    }
+
+    .green { color: #00ff00; }
+    .red { color: #ff0066; }
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+
+  <div class="container">
+    <header style="text-align: center; margin-bottom: 4rem;">
+      <h1 class="cyber-title" style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">CRuX DATA DECODER</h1>
+      <p style="font-size: 1.25rem; margin-bottom: 0.5rem;">Available Encryption Assets</p>
+      <p style="font-size: 0.875rem; color: #0891b2;">
+        Last updated: <span id="lastUpdated">Loading...</span>
+      </p>
+      <div class="info-box">
+        <p>
+          <span class="green" style="font-weight: bold;">●</span> Available items are shown in full color<br>
+          <span class="red" style="font-weight: bold;">●</span> Claimed items are dimmed and crossed out
+        </p>
+      </div>
+    </header>
+
+    <section style="margin-bottom: 4rem;">
+      <h2 class="cyber-title" style="font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; text-align: center;">
+        📼 DATA TAPES
+        <span style="font-size: 1.125rem; font-weight: normal; color: #0891b2;">
+          (<span id="tapesAvailable" class="green">0</span> / <span id="tapesTotal">0</span> available)
+        </span>
+      </h2>
+      <div id="tapesGrid" class="grid">
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data...</div>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 4rem;">
+      <h2 class="cyber-title" style="font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; text-align: center;">
+        🔑 DECODER KEYS
+        <span style="font-size: 1.125rem; font-weight: normal; color: #0891b2;">
+          (<span id="decodersAvailable" class="green">0</span> / <span id="decodersTotal">0</span> available)
+        </span>
+      </h2>
+      <div id="decodersGrid" class="grid">
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data...</div>
+      </div>
+    </section>
+
+    <footer style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(0, 255, 255, 0.2);">
+      <p style="color: #0891b2; font-size: 0.875rem;">
+        Brought to you by <span style="color: #00ffff;">The Fixer</span> — CRuX Industries Asset Broker
+      </p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSffHgMacafvB8RGRancylCrSUg37fKawtS1BmOQVH8MLUmiGg/viewform"
+         class="btn" style="margin-top: 1rem;">
+        📝 CLAIM YOUR PAIR
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    // Fetch sheet data via local proxy (avoids CORS issues with dead proxies)
+    const SHEET_ID = '1MRDIEWWvGdmcUsqj7w4OimqAN2s0e2zk2Eb7R24hV58';
+
+    function getImageUrl(driveId) {
+      if (driveId) return `/api/image/${driveId}`;
+      return null;
+    }
+
+    async function fetchSheetCSV(name) {
+      const response = await fetch(`/api/sheet/${name}`);
+      const text = await response.text();
+      return parseCSV(text);
+    }
+
+    function parseCSV(text) {
+      const lines = text.split('\n').filter(line => line.trim());
+      return lines.map(line => {
+        // Handle quoted CSV fields
+        const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
+        const matches = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g) || [];
+        return matches.map(cell => {
+          // Remove quotes and trim
+          return cell.replace(/^"|"$/g, '').trim();
+        });
+      });
+    }
+
+    function renderItems(data, gridId, availableId, totalId) {
+      const grid = document.getElementById(gridId);
+      const items = data.slice(1).filter(row => row[0]);
+
+      const available = items.filter(row => !row[3]).length;
+      const total = items.length;
+
+      document.getElementById(availableId).textContent = available;
+      document.getElementById(totalId).textContent = total;
+
+      grid.innerHTML = items.map(row => {
+        const [name, driveId, nfc, faction] = row;
+        const isClaimed = !!faction;
+        const imgUrl = getImageUrl(driveId);
+
+        return `
+          <div class="item-card ${isClaimed ? 'item-claimed' : ''}">
+            ${imgUrl ? `<img src="${imgUrl}" alt="${name}" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy">` : ''}
+            ${isClaimed
+              ? `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255, 0, 102, 0.2); color: #ff0066; font-size: 0.75rem; border-radius: 0.25rem;">
+                   CLAIMED by ${faction}
+                 </span>`
+              : `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(0, 255, 0, 0.2); color: #00ff00; font-size: 0.75rem; border-radius: 0.25rem;">
+                   AVAILABLE
+                 </span>`
+            }
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function init() {
+      try {
+        const [tapes, decoders] = await Promise.all([
+          fetchSheetCSV('tapes'),
+          fetchSheetCSV('decoders')
+        ]);
+
+        renderItems(tapes, 'tapesGrid', 'tapesAvailable', 'tapesTotal');
+        renderItems(decoders, 'decodersGrid', 'decodersAvailable', 'decodersTotal');
+
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('tapesGrid').innerHTML = '<p style="color: #ff0066; text-align: center; grid-column: 1 / -1;">Error loading data. Please refresh.</p>';
+        document.getElementById('decodersGrid').innerHTML = '';
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

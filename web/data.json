@@ -1,0 +1,419 @@
+{
+  "tapes": [
+    [
+      "DATA TAPES",
+      "NFC TAG",
+      "FACTION"
+    ],
+    [
+      "Aetherwave - AnAugmentedLament"
+    ],
+    [
+      "ArcadiaExe - Psyonix"
+    ],
+    [
+      "AstralBandwidth - NeuralHijack"
+    ],
+    [
+      "Augmancer - PowerArmorAndPixieDust",
+      "30221566080104e0"
+    ],
+    [
+      "BeepBoopBop - AceOfSpace",
+      "f4161566080104e0"
+    ],
+    [
+      "Byteknights - LicenseToGlitch",
+      "91441566080104e0"
+    ],
+    [
+      "BytesBeforeDawn - 4044eva",
+      "08451466080104e0"
+    ],
+    [
+      "ChiptuneMessiah - TheArcWarMachine",
+      "a30b1566080104e0"
+    ],
+    [
+      "CryOfTheModem - OsAnd1s",
+      "45c81366080104e0"
+    ],
+    [
+      "CTRL Freak",
+      "02311566080104e0"
+    ],
+    [
+      "Cyberhobo - AnErrorOccured",
+      "fd8f1466080104e0"
+    ],
+    [
+      "CybermageAndTheHexDrivers - MemoriesInMonochrome",
+      "b8e81466080104e0"
+    ],
+    [
+      "d9v1 - ForgottenFirmware",
+      "95f21466080104e0"
+    ],
+    [
+      "DaftProtocol - BitByBit",
+      "ddd21366080104e0"
+    ],
+    [
+      "Data Haven",
+      "7d5c1566080104e0"
+    ],
+    [
+      "Dataclysm - TheGridbornProphet",
+      "e5051566080104e0"
+    ],
+    [
+      "DataDruid - TalesOfTheCircuitPriest",
+      "ee5b1466080104e0"
+    ],
+    [
+      "DataLust",
+      "2a3d1566080104e0"
+    ],
+    [
+      "DigitalRonin - ClearCacheDeleteCorpos",
+      "87651566080104e0"
+    ],
+    [
+      "DJaetherjane - VaporwareValentine",
+      "64f81466080104e0"
+    ],
+    [
+      "DriftpunkHeroes - LostInTheLANScape",
+      "77461566080104e0"
+    ],
+    [
+      "ExoGoth - EchoesOfASharedMind",
+      "e3e21366080104e0"
+    ],
+    [
+      "Exomancer- ProfitOverProgress",
+      "f7d81466080104e0"
+    ],
+    [
+      "FissionFunk - MegabyteMeltdown",
+      "ceb41366080104e0"
+    ],
+    [
+      "Fractum - TurboTofu"
+    ],
+    [
+      "Glitchborne - ElectricSheepDontSleep",
+      "e6291366080104e0"
+    ],
+    [
+      "Glitchgeist - PassTheTest",
+      "0c7c1566080104e0"
+    ],
+    [
+      "Glitchwitch - HackedIntoOblivion",
+      "342f1566080104e0"
+    ],
+    [
+      "Gridweaver - HotlineToHeaven",
+      "b34f1566080104e0"
+    ],
+    [
+      "GunWizard",
+      "c2711566080104e0"
+    ],
+    [
+      "HexwaveHooligans - EtherpunkElegy"
+    ],
+    [
+      "Infiltr8tor",
+      "3591fd31080104e0"
+    ],
+    [
+      "IronLungFunk - TheOSisWatching",
+      "a15a1566080104e0"
+    ],
+    [
+      "KeyboardCowboy - PowerSurgeSerenade"
+    ],
+    [
+      "KeyboardCowboy - TheSingularityScreamed"
+    ],
+    [
+      "LastLandline - LikeTearsInTheReign"
+    ],
+    [
+      "LazerpunkSaints - DeusExMachina",
+      "27051466080104e0 (FIX)"
+    ],
+    [
+      "MechaMessiah - GearsAndTears",
+      "703b1466080104e0"
+    ],
+    [
+      "MinMax",
+      "26b31366080104e0"
+    ],
+    [
+      "NeonCoven - DystopianDiscotheque",
+      "8a511566080104e0"
+    ],
+    [
+      "Netherscream - TyrannyForTwo",
+      "8a8b1366080104e0"
+    ],
+    [
+      "NovaMatrix",
+      "e1661366080104e0"
+    ],
+    [
+      "NZXORRTH - ExercisingDemons",
+      "ba631566080104e0"
+    ],
+    [
+      "Overclocked",
+      "f3bb1366080104e0"
+    ],
+    [
+      "Overclocked - DriftThruTheDatastream"
+    ],
+    [
+      "Pixelgeist - UnderTheRainbow"
+    ],
+    [
+      "PixelProphet - Fractalize",
+      "7f841566080104e0"
+    ],
+    [
+      "PixelProphet - RobotsCryInBinary",
+      "eec91366080104e0"
+    ],
+    [
+      "PlasmaJazz - CTRLfreak",
+      "02311566080104e0"
+    ],
+    [
+      "PostHuman - FirewallBlues",
+      "4bab1466080104e0"
+    ],
+    [
+      "Quagaar - DigitalSpellbookVol1",
+      "7d8e1566080104e0"
+    ],
+    [
+      "Retronaut",
+      "16a01366080104e0"
+    ],
+    [
+      "RogueRiot - RamenInRetrograde"
+    ],
+    [
+      "RomanceDotExe - SubroutineSeduction"
+    ],
+    [
+      "Ruinborne",
+      "08701566080104e0"
+    ],
+    [
+      "RunesOfRuin - HexYourMechs",
+      "e0181566080104e0"
+    ],
+    [
+      "ShadyDealz - StreetCred",
+      "563b1566080104e0"
+    ],
+    [
+      "SolidWire - MeltYourMotherboard",
+      "c3371366080104e0"
+    ],
+    [
+      "Spindrift - CorporateGodsNeonKings",
+      "1d311366080104e0"
+    ],
+    [
+      "Tannh\u00e4user - SiliconHeaven",
+      "a84f1566080104e0"
+    ],
+    [
+      "TechnOPocalypse - CloudsOfRust",
+      "77391566080104e0"
+    ],
+    [
+      "TheGridwalkers - SynapticJazz"
+    ],
+    [
+      "TronJovi - InfiniteLoopsOfSadness",
+      "7b241466080104e0"
+    ],
+    [
+      "Turbo Tofu",
+      "ac5a1566080104e0"
+    ],
+    [
+      "TurboWerewolves - PhantomPatch",
+      "2cf61366080104e0"
+    ],
+    [
+      "VoightKamff - AshesOfEmpires",
+      "b49d1466080104e0"
+    ],
+    [
+      "Voxelfang - AstralAlchemy",
+      "2e001566080104e0"
+    ],
+    [
+      "zer0Chill - CtrlAltDespair",
+      "582d1566080104e0"
+    ]
+  ],
+  "decoders": [
+    [
+      "DECODERS",
+      "NFC TAG",
+      "FACTION"
+    ],
+    [
+      ". SalsCybernetics",
+      "b4131566080104e0"
+    ],
+    [
+      "40Thieves",
+      "e7fc1466080104e0"
+    ],
+    [
+      "Carwarz"
+    ],
+    [
+      "ClickNGlitch",
+      "619c1466080104e0"
+    ],
+    [
+      "CorporateEspionage"
+    ],
+    [
+      "Crazy Train",
+      "a0901466080104e0"
+    ],
+    [
+      "CRUX",
+      "0ac51466080104e0"
+    ],
+    [
+      "CultistSimulator",
+      "d3f11366080104e0"
+    ],
+    [
+      "CutthroatCaverns",
+      "ac841466080104e0"
+    ],
+    [
+      "DaemonDemon",
+      "b3631566080104e0"
+    ],
+    [
+      "DataEntry",
+      "ba421566080104e0"
+    ],
+    [
+      "Fluffendor",
+      "02e71366080104e0"
+    ],
+    [
+      "GhostPatrol",
+      "07a81466080104e0"
+    ],
+    [
+      "GoinThruShit",
+      "453f1466080104e0"
+    ],
+    [
+      "HenchmensHeist",
+      "fadd1366080104e0"
+    ],
+    [
+      "HopeEnd",
+      "df481466080104e0"
+    ],
+    [
+      "Hostile Takeover",
+      "b77d1566080104e0"
+    ],
+    [
+      "InkAndAshes",
+      "ae221566080104e0"
+    ],
+    [
+      "LabRat",
+      "bb711566080104e0"
+    ],
+    [
+      "MogollonMonster",
+      "a02f1566080104e0"
+    ],
+    [
+      "PEWPEWPEW'",
+      "48cd1466080104e0"
+    ],
+    [
+      "PinsAndNeedles",
+      "abb31466080104e0"
+    ],
+    [
+      "Project Minotaur",
+      "a2d51466080104e0"
+    ],
+    [
+      "Resist",
+      "d64d1566080104e0"
+    ],
+    [
+      "RoboPlus",
+      "475e1566080104e0"
+    ],
+    [
+      "Robotopia",
+      "4abf1466080104e0"
+    ],
+    [
+      "SpaceAttack"
+    ],
+    [
+      "Spacefight",
+      "ff681566080104e0"
+    ],
+    [
+      "StrangeBird",
+      "56e91466080104e0"
+    ],
+    [
+      "TheLadder",
+      "b8781466080104e0"
+    ],
+    [
+      "TheLastSupper"
+    ],
+    [
+      "TheManFromBeyond",
+      "40ca1466080104e0"
+    ],
+    [
+      "TheNest",
+      "2ff11466080104e0"
+    ],
+    [
+      "Undercooked",
+      "16381566080104e0"
+    ],
+    [
+      "WIZARD",
+      "7cadfd31080104e0"
+    ],
+    [
+      "WizardsTreasure",
+      "80df1466080104e0"
+    ],
+    [
+      "Zombie",
+      "f32d1366080104e0"
+    ]
+  ]
+}

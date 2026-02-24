@@ -27,11 +27,13 @@
       Logger.log("Your form is ready to use.");
     } catch (error) {
       Logger.log("❌ Setup error: " + error);
+      Logger.log("Stack: " + error.stack);
     }
   }
 
   // ============================================
   // POPULATE DROPDOWNS FROM SEPARATE SHEETS
+  // (Only shows items with Status = "Available")
   // ============================================
   function populateDropdowns() {
     const ss = SpreadsheetApp.openById(SHEET_ID);
@@ -39,11 +41,38 @@
     const tapesData = ss.getSheetByName(TAPES_SHEET).getDataRange().getValues();
     const decodersData = ss.getSheetByName(DECODERS_SHEET).getDataRange().getValues();
 
-    // First column of each sheet, skip header row
-    const tapes = tapesData.slice(1).map(row => row[0].toString()).filter(v => v);
-    const decoders = decodersData.slice(1).map(row => row[0].toString()).filter(v => v);
+    // Find column indices
+    const tapeHeaders = tapesData[0];
+    const decoderHeaders = decodersData[0];
 
-    Logger.log("Found " + tapes.length + " tapes, " + decoders.length + " decoders");
+    let tapeNameCol = -1, tapeFactionCol = -1;
+    let decoderNameCol = -1, decoderFactionCol = -1;
+
+    tapeHeaders.forEach((h, i) => {
+      Logger.log("Tape header: " + h);
+      if (h.toString().includes('TAPE')) tapeNameCol = i;
+      if (h.toString().toUpperCase() === 'FACTION') tapeFactionCol = i;
+    });
+
+    decoderHeaders.forEach((h, i) => {
+      Logger.log("Decoder header: " + h);
+      if (h.toString().includes('DECODER')) decoderNameCol = i;
+      if (h.toString().toUpperCase() === 'FACTION') decoderFactionCol = i;
+    });
+
+    Logger.log("tapeNameCol: " + tapeNameCol + ", tapeFactionCol: " + tapeFactionCol);
+    Logger.log("decoderNameCol: " + decoderNameCol + ", decoderFactionCol: " + decoderFactionCol);
+
+    // Filter to only unclaimed items (FACTION is empty) (skip header row)
+    const tapes = tapesData.slice(1)
+      .filter(row => tapeNameCol !== -1 && row[tapeNameCol] && (tapeFactionCol === -1 || !row[tapeFactionCol]))
+      .map(row => row[tapeNameCol].toString());
+
+    const decoders = decodersData.slice(1)
+      .filter(row => decoderNameCol !== -1 && row[decoderNameCol] && (decoderFactionCol === -1 || !row[decoderFactionCol]))
+      .map(row => row[decoderNameCol].toString());
+
+    Logger.log("Found " + tapes.length + " available tapes, " + decoders.length + " available decoders");
 
     const items = form.getItems();
     let tapeUpdated = false, decoderUpdated = false;
@@ -104,21 +133,77 @@
         if (title === 'Faction Name') faction = value;
       });
 
-      Logger.log("New submission: " + faction + " | " + tape + " + " + decoder);
+      Logger.log("New submission: " + faction + " | Tape: " + tape + " | Decoder: " + decoder);
 
-      // Update claimed tab
+      // Mark tape and decoder as claimed by this faction
+      markAsClaimed(TAPES_SHEET, tape, faction);
+      markAsClaimed(DECODERS_SHEET, decoder, faction);
+
+      // Refresh form dropdowns to remove claimed items
+      populateDropdowns();
+
+      // Update claimed combos tab (for reference)
       updateClaimedTab(tape, decoder, faction);
 
-      // Check for duplicates
-      checkForDuplicateCombo(tape, decoder, faction, email);
+      Logger.log("✓ Items marked as claimed, dropdowns refreshed");
 
     } catch (error) {
       Logger.log("❌ Error in onFormSubmit: " + error);
+      Logger.log("Stack: " + error.stack);
     }
   }
 
   // ============================================
-  // UPDATE CLAIMED COMBOS TAB
+  // MARK ITEM AS CLAIMED IN SHEET (sets FACTION)
+  // ============================================
+  function markAsClaimed(sheetName, itemName, faction) {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName(sheetName);
+    const data = sheet.getDataRange().getValues();
+
+    // Find column indices
+    const headers = data[0];
+    let nameCol = -1, factionCol = -1;
+
+    Logger.log("Looking for item '" + itemName + "' in " + sheetName);
+    Logger.log("Headers: " + headers.join(", "));
+
+    headers.forEach((h, i) => {
+      if (h.toString().includes('TAPE') || h.toString().includes('DECODER')) {
+        nameCol = i;
+      }
+      if (h.toString().toUpperCase() === 'FACTION') {
+        factionCol = i;
+      }
+    });
+
+    Logger.log("Found columns - nameCol: " + nameCol + ", factionCol: " + factionCol);
+
+    if (nameCol === -1) {
+      Logger.log("⚠️  Could not find name column in " + sheetName);
+      return;
+    }
+
+    // Find and update the row
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][nameCol] && data[i][nameCol].toString() === itemName) {
+        if (factionCol !== -1) {
+          // Update FACTION column
+          const range = sheet.getRange(i + 1, factionCol + 1);
+          range.setValue(faction);
+          Logger.log("✓ Marked '" + itemName + "' as claimed by " + faction + " in " + sheetName);
+        } else {
+          Logger.log("⚠️  No FACTION column found in " + sheetName + ", item not marked");
+        }
+        return;
+      }
+    }
+
+    Logger.log("⚠️  Could not find item '" + itemName + "' in " + sheetName);
+  }
+
+  // ============================================
+  // UPDATE CLAIMED COMBOS TAB (for reference)
   // ============================================
   function updateClaimedTab(tape, decoder, faction) {
     const ss = SpreadsheetApp.openById(SHEET_ID);
@@ -127,71 +212,11 @@
     let claimedSheet = ss.getSheetByName("Claimed");
     if (!claimedSheet) {
       claimedSheet = ss.insertSheet("Claimed");
-      claimedSheet.appendRow(["Data Tape", "Decoder", "Faction", "Submitted"]);
+      claimedSheet.appendRow(["Data Tape", "Decoder", "Faction", "Claimed At"]);
       Logger.log("Created 'Claimed' tab");
     }
 
     // Add the new combo
     claimedSheet.appendRow([tape, decoder, faction, new Date()]);
     Logger.log("Added to Claimed tab: " + tape + " + " + decoder);
-  }
-
-  // ============================================
-  // CHECK FOR DUPLICATE COMBINATIONS
-  // ============================================
-  function checkForDuplicateCombo(tape, decoder, faction, email) {
-    const allResponses = form.getResponses();
-    const comboKey = tape + " + " + decoder;
-    let duplicateFound = false;
-
-    // Skip the most recent submission (we're checking against it)
-    for (let i = 0; i < allResponses.length - 1; i++) {
-      const prevItems = allResponses[i].getItemResponses();
-      let prevTape = '', prevDecoder = '';
-
-      prevItems.forEach(item => {
-        const title = item.getItem().getTitle();
-        if (title === 'Data Tape') prevTape = item.getResponse();
-        if (title === 'Decoder') prevDecoder = item.getResponse();
-      });
-
-      if (prevTape === tape && prevDecoder === decoder) {
-        duplicateFound = true;
-        Logger.log("⚠️  DUPLICATE FOUND: " + comboKey);
-
-        // Optional: Send email alert
-        sendDuplicateAlert(faction, email, tape, decoder);
-        break;
-      }
-    }
-
-    if (!duplicateFound) {
-      Logger.log("✓ Combo is unique: " + comboKey);
-    }
-  }
-
-  // ============================================
-  // SEND DUPLICATE ALERT EMAIL (Optional)
-  // ============================================
-  function sendDuplicateAlert(faction, email, tape, decoder) {
-    if (!email) return; // Skip if no email provided
-
-    const subject = "N26 Decoder Submission - Combo Already Taken";
-    const message = `Hi ${faction},
-
-Your submission used the combination:
-- Data Tape: ${tape}
-- Decoder: ${decoder}
-
-Unfortunately, this combination was already claimed by another faction.
-
-Please resubmit the form with a different decoder or data tape.
-
-Available options: [Your form link]
-
-Thanks!
-CRuX Liaison`;
-
-    MailApp.sendEmail(email, subject, message);
-    Logger.log("Sent duplicate alert email to " + email);
   }

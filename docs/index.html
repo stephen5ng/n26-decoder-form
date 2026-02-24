@@ -66,7 +66,7 @@
       right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, #00ffff, transparent);
-      animation: scan 8s linear infinite;
+      animation: scan 16s linear infinite;
       pointer-events: none;
       z-index: 100;
     }
@@ -129,48 +129,6 @@
 
     .green { color: #00ff00; }
     .red { color: #ff0066; }
-
-    .image-preview {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.9);
-      padding: 2rem;
-      border: 2px solid #00ffff;
-      border-radius: 0.5rem;
-      z-index: 1000;
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-
-    .image-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
-    }
-
-    .image-preview.visible {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .image-preview-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 999;
-    }
-
-    .image-preview-overlay.visible {
-      display: block;
-    }
   </style>
 </head>
 <body>
@@ -222,11 +180,6 @@
     </footer>
   </div>
 
-  <div class="image-preview-overlay"></div>
-  <div class="image-preview">
-    <img id="previewImg" src="" alt="">
-  </div>
-
   <script>
     // TODO: Replace with your deployed Apps Script web app URL
     // Deploy Code.js as web app: Deploy > New deployment > Web app
@@ -251,10 +204,9 @@
         const isClaimed = !!item.FACTION;
         const imgUrl = getImageUrl(item['DRIVE ID']);
 
-        const fullUrl = imgUrl ? imgUrl.replace('=w200', '=w800') : null;
         return `
           <div class="item-card ${isClaimed ? 'item-claimed' : ''}">
-            ${imgUrl ? `<img src="${imgUrl}" alt="" data-full="${fullUrl}" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'}; cursor: pointer;" loading="lazy" class="preview-trigger">` : ''}
+            ${imgUrl ? `<img src="${imgUrl}" alt="" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy">` : ''}
             ${isClaimed
               ? `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255, 0, 102, 0.2); color: #ff0066; font-size: 0.75rem; border-radius: 0.25rem;">
                    CLAIMED
@@ -277,44 +229,11 @@
         renderItems(data.decoders, 'decodersGrid', 'decodersAvailable', 'decodersTotal');
 
         document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
-
-        // Setup image preview hover
-        setupImagePreview();
       } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('tapesGrid').innerHTML = '<p style="color: #ff0066; text-align: center; grid-column: 1 / -1;">Error loading data. Please refresh.</p>';
         document.getElementById('decodersGrid').innerHTML = '';
       }
-    }
-
-    function setupImagePreview() {
-      const preview = document.querySelector('.image-preview');
-      const overlay = document.querySelector('.image-preview-overlay');
-      const previewImg = document.getElementById('previewImg');
-      const triggers = document.querySelectorAll('.preview-trigger');
-
-      triggers.forEach(img => {
-        img.addEventListener('mouseenter', (e) => {
-          const fullUrl = e.target.dataset.full;
-          if (fullUrl) {
-            previewImg.src = fullUrl;
-            preview.classList.add('visible');
-            overlay.classList.add('visible');
-          }
-        });
-      });
-
-      document.addEventListener('mouseleave', (e) => {
-        if (!e.target.classList.contains('preview-trigger')) {
-          preview.classList.remove('visible');
-          overlay.classList.remove('visible');
-        }
-      });
-
-      overlay.addEventListener('click', () => {
-        preview.classList.remove('visible');
-        overlay.classList.remove('visible');
-      });
     }
 
     init();

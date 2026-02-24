@@ -171,54 +171,35 @@
   </div>
 
   <script>
-    // Fetch sheet data via local proxy (avoids CORS issues with dead proxies)
-    const SHEET_ID = '1MRDIEWWvGdmcUsqj7w4OimqAN2s0e2zk2Eb7R24hV58';
+    // TODO: Replace with your deployed Apps Script web app URL
+    // Deploy Code.js as web app: Deploy > New deployment > Web app
+    //   Execute as: Me, Access: Anyone
+    const DATA_URL = 'https://script.google.com/macros/s/AKfycbw5k4GLuwjoEtjInViaaeUEG6k5O773yKeak8r7-FspdG2igs2VWVY2Z4b12HjJmW0/exec';
 
     function getImageUrl(driveId) {
-      if (driveId) return `/api/image/${driveId}`;
+      if (driveId) return `https://lh3.googleusercontent.com/d/${driveId}=w200`;
       return null;
     }
 
-    async function fetchSheetCSV(name) {
-      const response = await fetch(`/api/sheet/${name}`);
-      const text = await response.text();
-      return parseCSV(text);
-    }
-
-    function parseCSV(text) {
-      const lines = text.split('\n').filter(line => line.trim());
-      return lines.map(line => {
-        // Handle quoted CSV fields
-        const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
-        const matches = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g) || [];
-        return matches.map(cell => {
-          // Remove quotes and trim
-          return cell.replace(/^"|"$/g, '').trim();
-        });
-      });
-    }
-
-    function renderItems(data, gridId, availableId, totalId) {
+    function renderItems(items, gridId, availableId, totalId) {
       const grid = document.getElementById(gridId);
-      const items = data.slice(1).filter(row => row[0]);
 
-      const available = items.filter(row => !row[3]).length;
+      const available = items.filter(item => !item.FACTION).length;
       const total = items.length;
 
       document.getElementById(availableId).textContent = available;
       document.getElementById(totalId).textContent = total;
 
-      grid.innerHTML = items.map(row => {
-        const [name, driveId, nfc, faction] = row;
-        const isClaimed = !!faction;
-        const imgUrl = getImageUrl(driveId);
+      grid.innerHTML = items.map(item => {
+        const isClaimed = !!item.FACTION;
+        const imgUrl = getImageUrl(item['DRIVE ID']);
 
         return `
           <div class="item-card ${isClaimed ? 'item-claimed' : ''}">
-            ${imgUrl ? `<img src="${imgUrl}" alt="${name}" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy">` : ''}
+            ${imgUrl ? `<img src="${imgUrl}" alt="" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy">` : ''}
             ${isClaimed
               ? `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255, 0, 102, 0.2); color: #ff0066; font-size: 0.75rem; border-radius: 0.25rem;">
-                   CLAIMED by ${faction}
+                   CLAIMED by ${item.FACTION}
                  </span>`
               : `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(0, 255, 0, 0.2); color: #00ff00; font-size: 0.75rem; border-radius: 0.25rem;">
                    AVAILABLE
@@ -231,13 +212,11 @@
 
     async function init() {
       try {
-        const [tapes, decoders] = await Promise.all([
-          fetchSheetCSV('tapes'),
-          fetchSheetCSV('decoders')
-        ]);
+        const response = await fetch(DATA_URL);
+        const data = await response.json();
 
-        renderItems(tapes, 'tapesGrid', 'tapesAvailable', 'tapesTotal');
-        renderItems(decoders, 'decodersGrid', 'decodersAvailable', 'decodersTotal');
+        renderItems(data.tapes, 'tapesGrid', 'tapesAvailable', 'tapesTotal');
+        renderItems(data.decoders, 'decodersGrid', 'decodersAvailable', 'decodersTotal');
 
         document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
       } catch (error) {

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/stephenng/.claude/skills/google-docs/scripts/drive_manager.rb search:*)",
+      "Bash(gem install:*)",
+      "Bash(head:*)",
+      "WebFetch(domain:drive.google.com)",
+      "Bash(/opt/homebrew/opt/ruby/bin/ruby:*)",
+      "Bash(python3:*)",
+      "Bash(sleep:*)",
+      "Bash(sleep 2:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

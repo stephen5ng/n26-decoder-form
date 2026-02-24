@@ -8,6 +8,33 @@
   const TAPES_SHEET = "Data Tapes";
   const DECODERS_SHEET = "Decoders";
 
+  // ============================================
+  // WEB APP ENDPOINT - Returns sheet data as JSON
+  // Deploy as: Execute as "Me", Access "Anyone"
+  // ============================================
+  function doGet() {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+
+    function sheetToRows(name) {
+      const data = ss.getSheetByName(name).getDataRange().getValues();
+      const headers = data[0];
+      return data.slice(1).filter(row => row[0]).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (row[i] || '').toString(); });
+        return obj;
+      });
+    }
+
+    const result = {
+      tapes: sheetToRows(TAPES_SHEET),
+      decoders: sheetToRows(DECODERS_SHEET),
+    };
+
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   const form = FormApp.openById(FORM_ID);
 
   // ============================================

@@ -136,13 +136,15 @@
 
     .item-card img {
       cursor: pointer;
+      position: relative;
+      z-index: 1;
     }
 
     .item-tooltip {
       position: absolute;
-      bottom: -2.5rem;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.95);
       color: #00ffff;
       padding: 0.5rem 1rem;
@@ -153,7 +155,7 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s;
-      z-index: 10;
+      z-index: 100;
     }
 
     .item-card:has(img:hover) .item-tooltip {

@@ -71,7 +71,7 @@
     }
 
     .scan-line.scanning {
-      animation: scan 4s linear forwards;
+      animation: scan 2s linear forwards;
     }
 
     @keyframes scan {
@@ -180,6 +180,7 @@
 
   <div class="container">
     <header style="text-align: center; margin-bottom: 4rem;">
+      <img src="crux-logo.png" alt="CRuX Industries" style="width: 200px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">
       <h1 class="cyber-title" style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">CRuX DATA DECODER</h1>
       <p style="font-size: 1.25rem; margin-bottom: 0.5rem;">Available Encryption Assets</p>
       <a href="https://forms.gle/ZjFDFR6FZoDgq1Tt5" class="btn btn-primary" style="margin: 1rem 0;" target="_blank" rel="noopener noreferrer">
@@ -269,12 +270,12 @@
       const scanLine = document.querySelector('.scan-line');
 
       function scheduleScan() {
-        const waitTime = Math.random() * 20000 + 20000; // 20-40 seconds
+        const waitTime = Math.random() * 5000 + 15000; // 15-20 seconds
         setTimeout(() => {
           scanLine.classList.remove('scanning');
           void scanLine.offsetWidth; // Trigger reflow to restart animation
           scanLine.classList.add('scanning');
-          setTimeout(scheduleScan, 4000); // After 4s scan, schedule next one
+          setTimeout(scheduleScan, 2000); // After 2s scan, schedule next one
         }, waitTime);
       }
 

@@ -173,6 +173,18 @@
     .item-card:has(img:hover) .item-tooltip {
       opacity: 1;
     }
+
+    .loading-dots::after {
+      content: '';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+    }
   </style>
 </head>
 <body>
@@ -200,7 +212,7 @@
         </span>
       </h2>
       <div id="tapesGrid" class="grid">
-        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data...</div>
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data<span class="loading-dots"></span></div>
       </div>
     </section>
 
@@ -212,7 +224,7 @@
         </span>
       </h2>
       <div id="decodersGrid" class="grid">
-        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data...</div>
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">Loading data<span class="loading-dots"></span></div>
       </div>
     </section>
 

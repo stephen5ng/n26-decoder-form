@@ -250,10 +250,11 @@
         const isClaimed = !!item.FACTION;
         const imgUrl = getImageUrl(item['DRIVE ID']);
         const itemName = item[Object.keys(item)[0]];
+        const tooltipName = itemName.replace(' - ', '<br>-<br>');
 
         return `
           <div class="item-card ${isClaimed ? 'item-claimed' : ''}">
-            ${imgUrl ? `<img src="${imgUrl}" alt="" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy"><div class="item-tooltip">${itemName}</div>` : `<div style="padding: 1rem; text-align: center; font-size: 0.75rem; color: #00ffff;">${itemName}</div>`}
+            ${imgUrl ? `<img src="${imgUrl}" alt="" style="border: 1px solid ${isClaimed ? '#ff0066' : '#00ffff'};" loading="lazy"><div class="item-tooltip">${tooltipName}</div>` : `<div style="padding: 1rem; text-align: center; font-size: 0.75rem; color: #00ffff;">${itemName}</div>`}
             ${isClaimed
               ? `<span class="status-badge" style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255, 0, 102, 0.2); color: #ff0066; font-size: 0.75rem; border-radius: 0.25rem;">
                    CLAIMED

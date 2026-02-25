@@ -1,0 +1,22 @@
+# Local environment variables (Discord IDs, tokens, etc.)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temp files
+/tmp/
+*.tmp
+
+# Node modules (if adding web build tools later)
+node_modules/

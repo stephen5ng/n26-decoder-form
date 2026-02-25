@@ -12,7 +12,8 @@
       "Bash(gh auth:*)",
       "Bash(gh repo:*)",
       "Bash(gh api:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(cd:*)"
     ]
   }
 }

@@ -66,9 +66,12 @@
       right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, #00ffff, transparent);
-      animation: scan 60s linear infinite;
       pointer-events: none;
       z-index: 100;
+    }
+
+    .scan-line.scanning {
+      animation: scan 4s linear forwards;
     }
 
     @keyframes scan {
@@ -262,6 +265,22 @@
       }).join('');
     }
 
+    function startScanLine() {
+      const scanLine = document.querySelector('.scan-line');
+
+      function scheduleScan() {
+        const waitTime = Math.random() * 20000 + 20000; // 20-40 seconds
+        setTimeout(() => {
+          scanLine.classList.remove('scanning');
+          void scanLine.offsetWidth; // Trigger reflow to restart animation
+          scanLine.classList.add('scanning');
+          setTimeout(scheduleScan, 4000); // After 4s scan, schedule next one
+        }, waitTime);
+      }
+
+      scheduleScan();
+    }
+
     async function init() {
       try {
         const response = await fetch(DATA_URL);
@@ -271,6 +290,8 @@
         renderItems(data.decoders, 'decodersGrid', 'decodersAvailable', 'decodersTotal');
 
         document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+
+        startScanLine();
       } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('tapesGrid').innerHTML = '<p style="color: #ff0066; text-align: center; grid-column: 1 / -1;">Error loading data. Please refresh.</p>';
